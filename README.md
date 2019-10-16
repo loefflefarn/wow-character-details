@@ -1,1 +1,1 @@
-# wowauction-server
+# wowauctions-app
