@@ -7,9 +7,11 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class Character
+public class Realm
 {
+    private long id;
+
     private String name;
 
-    private Realm realm;
+    private String slug;
 }

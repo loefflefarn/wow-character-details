@@ -10,8 +10,8 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
-public class Characters
+public class ProfileSummary
 {
-    @JsonAlias("characters")
-    private List<Character> data;
+    @JsonAlias("wow_accounts")
+    private List<Account> wowAccounts;
 }

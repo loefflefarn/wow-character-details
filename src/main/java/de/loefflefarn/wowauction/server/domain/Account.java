@@ -4,12 +4,14 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.List;
+
 @Getter
 @Setter
 @ToString
-public class Character
+public class Account
 {
-    private String name;
+    private long id;
 
-    private Realm realm;
+    private List<Character> characters;
 }

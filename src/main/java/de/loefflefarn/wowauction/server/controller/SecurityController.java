@@ -9,10 +9,12 @@ import java.security.Principal;
 import java.util.Map;
 
 @RestController
-public class SecurityController {
+public class SecurityController
+{
     @GetMapping("/user")
     @SuppressWarnings("unchecked")
-    public String user(Principal principal) {
+    public String user(Principal principal)
+    {
         Authentication authentication = ((OAuth2Authentication) principal).getUserAuthentication();
         return ((Map<String, String>) authentication.getDetails()).get("battletag");
     }

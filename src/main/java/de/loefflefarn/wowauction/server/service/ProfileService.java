@@ -1,10 +1,13 @@
 package de.loefflefarn.wowauction.server.service;
 
 import de.loefflefarn.wowauction.server.domain.Character;
+import de.loefflefarn.wowauction.server.domain.CharacterMedia;
 
 import java.util.List;
-import java.util.Map;
 
-public interface ProfileService {
-    Map<String, List<Character>> findAllCharacters();
+public interface ProfileService
+{
+    CharacterMedia getCharacterData(String realmName, String characterName);
+
+    List<Character> findAllCharacters();
 }

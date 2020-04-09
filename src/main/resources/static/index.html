@@ -1,31 +1,40 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <meta charset="utf-8"/>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <title>Demo</title>
-    <meta name="description" content=""/>
-    <meta name="viewport" content="width=device-width"/>
-    <base href="/"/>
-    <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css"/>
-    <script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
-    <script type="text/javascript" src="/webjars/bootstrap/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="/webjars/js-cookie/js.cookie.js"></script>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>World of Warcraft - Character details</title>
+  <meta name="description" content="" />
+  <meta name="viewport" content="width=device-width" />
+  <base href="/" />
+  <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css" />
+  <script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
+  <script type="text/javascript" src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="/webjars/js-cookie/js.cookie.js"></script>
 </head>
 <body>
 
-<h1>WoW-Auctions</h1>
-
-<div class="container unauthenticated">
-    With Blizzard: <a href="/login">click here</a>
-</div>
-
-<div class="container authenticated" style="display: none;">
-    Logged in as: <span id="user"></span>
-    <div>
-        <button onClick="logout()" class="btn btn-primary">Logout</button>
+<div class="container">
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">World of Warcraft - Character details</a>
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item unauthenticated">
+        <a class="nav-link" href="/login">Login with Blizzard</a>
+      </li>
+      <li class="nav-item authenticated" style="display: none;">
+        <a class="nav-link" href="#" onClick="logout()">Logout</a>
+      </li>
+    </ul>
+    <div class="authenticated" style="display: none; width: 100%; text-align: right;">
+      <svg class="bi bi-person-square" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <path fill-rule="evenodd" d="M14 1H2a1 1 0 00-1 1v12a1 1 0 001 1h12a1 1 0 001-1V2a1 1 0 00-1-1zM2 0a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2V2a2 2 0 00-2-2H2z" clip-rule="evenodd" />
+        <path fill-rule="evenodd" d="M2 15v-1c0-1 1-4 6-4s6 3 6 4v1H2zm6-6a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd" />
+      </svg>
+      <span id="user"></span>
     </div>
-    <div id="realms"></div>
+  </nav>
+  <div id="characters" class="authenticated" style="margin-top: 10px; display: none;"></div>
+</div>
 </div>
 
 <script type="text/javascript">
@@ -34,8 +43,9 @@
 
     $.get("/user", function(data) {
         $("#user").html(data);
-        $(".unauthenticated").hide()
-        $(".authenticated").show()
+        $(".unauthenticated").hide();
+        $(".authenticated").show();
+        getCharacters();
     });
 
     // for logout
@@ -51,17 +61,18 @@
 
     // for characters
 
-    $.get("/api/profile/characters", function(data) {
-        $.each(data, function(realm, characters) {
-            var realmId = realm.replace("'", "") + "_characters";
-            $("#realms").append("<h3>" + realm + "</h3>");
-            $("#realms").append("<ul id=\"" + realmId + "\" class=\"list-group\"></ul>");
-
-            $.each(characters, function(index, character) {
-                $("#" + realmId + "").append("<li class=\"list-group-item\">" + character.name + "</li>");
+    this.getCharacters = function() {
+      $.get("/api/profile/characters", function(data) {
+        $.each(data, function(index, character) {
+            $.get("/api/profile/character/" + character.realm.slug + "/" + character.name + "/media", function(data) {
+              $("#characters").append('<div class="card mb-3"><div class="row no-gutters"><div class="col-md-4">'
+                + '<img src="' + data.bustUrl + '" class="card-img"></div>'
+                + '<div class="col-md-8"><div class="card-body"><h5 class="card-title">' + character.name + ' - ' + character.realm.name + '</h5>'
+                + '<p>More details coming soon...</p><p class="card-text"><small class="text-muted">and more data...</small></p></div></div></div></div>');
             });
         });
-    });
+      });
+    };
 
     $.ajaxSetup({
         beforeSend : function(xhr, settings) {
@@ -76,13 +87,6 @@
           }
         }
     });
-
-
-
-
-
-
-
 </script>
 </body>
 </html>
