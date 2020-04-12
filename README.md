@@ -1,4 +1,6 @@
 # wow-character-details
+[![Build](https://github.com/loefflefarn/wow-character-details/workflows/release/badge.svg)](https://github.com/loefflefarn/wow-character-details/actions)
+[![Heroku](https://heroku-badge.herokuapp.com/?app=wow-character-details)](https://wow-character-details.herokuapp.com)
 
 With World of Warcraft - Character details you can view all your 
 characters on your personal Blizzard-Account with a single login. 
